@@ -7,6 +7,11 @@ reg COND;
 wire Q;   // wires for output signals
 wire QN; 
 
+integer i; // loop
+realtime period = 10; // setting period variable
+reg [3:0] delay;
+integer seed = 4; // urandom
+
 d_flip_flop d_flip_flop_inst(
     .d_i(DATA), // data
     .c_i(COND), // condition
@@ -14,7 +19,6 @@ d_flip_flop d_flip_flop_inst(
     .qn_o(QN)
 );
 
-realtime period = 10; // setting period variable
 
 always #(period) COND = ~COND; // setting clk inverting every period 
 
@@ -23,8 +27,12 @@ begin
     $dumpvars;
     COND = 1'b0;
     DATA = 1'b0;
-    #10 DATA = 1'b1;
-    #20 DATA = 1'b0;
+
+    for (i = 0; i < 50; i = i + 1)
+    begin
+        delay = $urandom(seed) % 10 + 1;
+        #(delay) DATA = ~DATA; 
+    end
 
     #100 $finish;
 end

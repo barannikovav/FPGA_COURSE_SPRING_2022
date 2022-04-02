@@ -16,7 +16,7 @@ wire s;
 assign r = ~(c_i & (~d_i));
 assign s = ~(d_i & c_i);
 
-sr_latch sr_latch_inst(
+sr_and_latch sr_latch_inst(
 	.r_i(r),          // after dot name of variable from original module, in brackets name of local variable
 	.s_i(s), 
 	.q_o(q_o),
